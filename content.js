@@ -39,10 +39,10 @@
     }
 
     const key = event.key;
-    console.log('[Chrome Oreore Keymap] Key pressed:', key, 'Ctrl:', event.ctrlKey);
+    console.log('[Chrome Oreore Keymap] Key pressed:', key, 'Ctrl:', event.ctrlKey, 'Meta:', event.metaKey);
 
     // Handle Ctrl+[ (browser back)
-    if (event.ctrlKey && key === '[') {
+    if (event.ctrlKey && key === '[' && !event.metaKey && !event.altKey && !event.shiftKey) {
       console.log('[Chrome Oreore Keymap] Action: Browser back');
       event.preventDefault();
       chrome.runtime.sendMessage({ action: 'goBack' });
@@ -50,10 +50,15 @@
     }
 
     // Handle Ctrl+] (browser forward)
-    if (event.ctrlKey && key === ']') {
+    if (event.ctrlKey && key === ']' && !event.metaKey && !event.altKey && !event.shiftKey) {
       console.log('[Chrome Oreore Keymap] Action: Browser forward');
       event.preventDefault();
       chrome.runtime.sendMessage({ action: 'goForward' });
+      return;
+    }
+
+    // Ignore if modifier keys are pressed (Cmd, Alt, Shift)
+    if (event.metaKey || event.altKey || event.shiftKey) {
       return;
     }
 
