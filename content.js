@@ -57,23 +57,24 @@
       return;
     }
 
-    // Ignore if modifier keys are pressed (Cmd, Alt, Shift)
-    if (event.metaKey || event.altKey || event.shiftKey) {
-      return;
-    }
-
-    // Handle tab navigation (h, l)
-    if (key === 'h') {
+    // Handle Ctrl+h (previous tab)
+    if (event.ctrlKey && key === 'h' && !event.metaKey && !event.altKey && !event.shiftKey) {
       console.log('[Chrome Oreore Keymap] Action: Previous tab');
       event.preventDefault();
       chrome.runtime.sendMessage({ action: 'previousTab' });
       return;
     }
 
-    if (key === 'l') {
+    // Handle Ctrl+l (next tab)
+    if (event.ctrlKey && key === 'l' && !event.metaKey && !event.altKey && !event.shiftKey) {
       console.log('[Chrome Oreore Keymap] Action: Next tab');
       event.preventDefault();
       chrome.runtime.sendMessage({ action: 'nextTab' });
+      return;
+    }
+
+    // Ignore if modifier keys are pressed (Cmd, Alt, Shift)
+    if (event.metaKey || event.altKey || event.shiftKey) {
       return;
     }
 
